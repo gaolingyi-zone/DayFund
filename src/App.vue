@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import FundList from "./components/FundList2.vue";
+import FundList from "./components/FundList.vue";
 
 export default {
   name: "App",
