@@ -1,80 +1,89 @@
 <template>
-  <a-table
-    :columns="columns"
-    :data-source="get300"
-    :pagination="false"
-    :rowKey="(record) => record[25]"
-    ><span slot="i6" slot-scope="i0">
-      <a href="http://fund.eastmoney.com/008227.html">{{ i0 }}</a>
-    </span>
-    <span slot="i6" slot-scope="i0">
-      <a href="http://fund.eastmoney.com/008227.html">{{ i0 }}</a>
-    </span>
-    <span slot="num" slot-scope="scope">
-      {{ scope }}
-    </span>
-    <span slot="i6" slot-scope="i6">
-      <span :style="'color:' + (i6 >= 0 ? 'red' : 'green')"
-        >{{ i6 }}{{ i6 == 0 ? "" : "%" }}</span
-      >
-    </span>
-    <span slot="i7" slot-scope="i7">
-      <span :style="'color:' + (i7 >= 0 ? 'red' : 'green')"
-        >{{ i7 }}{{ i7 == 0 ? "" : "%" }}</span
-      >
-    </span>
-    <span slot="i8" slot-scope="i8">
-      <span :style="'color:' + (i8 >= 0 ? 'red' : 'green')"
-        >{{ i8 }}{{ i8 == 0 ? "" : "%" }}</span
-      >
-    </span>
-    <span slot="i9" slot-scope="i9">
-      <span :style="'color:' + (i9 >= 0 ? 'red' : 'green')"
-        >{{ i9 }}{{ i9 == 0 ? "" : "%" }}</span
-      >
-    </span>
-    <span slot="i10" slot-scope="i10">
-      <span :style="'color:' + (i10 >= 0 ? 'red' : 'green')"
-        >{{ i10 }}{{ i10 == 0 ? "" : "%" }}</span
-      >
-    </span>
-    <span slot="i11" slot-scope="i11">
-      <span :style="'color:' + (i11 >= 0 ? 'red' : 'green')"
-        >{{ i11 }}{{ i11 == 0 ? "" : "%" }}</span
-      >
-    </span>
-    <span slot="i12" slot-scope="i12">
-      <span :style="'color:' + (i12 >= 0 ? 'red' : 'green')"
-        >{{ i12 }}{{ i12 == 0 ? "" : "%" }}</span
-      >
-    </span>
-    <span slot="i13" slot-scope="i13">
-      <span :style="'color:' + (i13 >= 0 ? 'red' : 'green')"
-        >{{ i13 }}{{ i13 == 0 ? "" : "%" }}</span
-      >
-    </span>
-    <span slot="i14" slot-scope="i14">
-      <span :style="'color:' + (i14 >= 0 ? 'red' : 'green')"
-        >{{ i14 }}{{ i14 == 0 ? "" : "%" }}</span
-      >
-    </span>
-    <span slot="i15" slot-scope="i15">
-      <span :style="'color:' + (i15 >= 0 ? 'red' : 'green')"
-        >{{ i15 }}{{ i15 == 0 ? "" : "%" }}</span
-      >
-    </span>
-  </a-table>
+  <div>
+    <a-form layout="inline">
+      <a-form-item>
+        <a-input placeholder="基金名称" v-model="searchVal">
+          <a-icon
+            slot="prefix"
+            type="user"
+            style="color: rgba(0, 0, 0, 0.25)"
+          />
+        </a-input>
+      </a-form-item>
+
+      <a-form-item>
+        <a-button type="primary" html-type="submit" @click="handleSubmit">
+          搜索
+        </a-button>
+      </a-form-item>
+    </a-form>
+    <a-table
+      :columns="columns"
+      :data-source="currentList"
+      :pagination="false"
+      :rowKey="(record) => record[25]"
+    >
+      <span slot="i0" slot-scope="i0">
+        <a :href="`http://fund.eastmoney.com/${i0}.html`">{{ i0 }}</a>
+      </span>
+
+      <span slot="i6" slot-scope="i6">
+        <span :style="'color:' + (i6 >= 0 ? 'red' : 'green')"
+          >{{ i6 }}{{ i6 == 0 ? "" : "%" }}</span
+        >
+      </span>
+      <span slot="i7" slot-scope="i7">
+        <span :style="'color:' + (i7 >= 0 ? 'red' : 'green')"
+          >{{ i7 }}{{ i7 == 0 ? "" : "%" }}</span
+        >
+      </span>
+      <span slot="i8" slot-scope="i8">
+        <span :style="'color:' + (i8 >= 0 ? 'red' : 'green')"
+          >{{ i8 }}{{ i8 == 0 ? "" : "%" }}</span
+        >
+      </span>
+      <span slot="i9" slot-scope="i9">
+        <span :style="'color:' + (i9 >= 0 ? 'red' : 'green')"
+          >{{ i9 }}{{ i9 == 0 ? "" : "%" }}</span
+        >
+      </span>
+      <span slot="i10" slot-scope="i10">
+        <span :style="'color:' + (i10 >= 0 ? 'red' : 'green')"
+          >{{ i10 }}{{ i10 == 0 ? "" : "%" }}</span
+        >
+      </span>
+      <span slot="i11" slot-scope="i11">
+        <span :style="'color:' + (i11 >= 0 ? 'red' : 'green')"
+          >{{ i11 }}{{ i11 == 0 ? "" : "%" }}</span
+        >
+      </span>
+      <span slot="i12" slot-scope="i12">
+        <span :style="'color:' + (i12 >= 0 ? 'red' : 'green')"
+          >{{ i12 }}{{ i12 == 0 ? "" : "%" }}</span
+        >
+      </span>
+      <span slot="i13" slot-scope="i13">
+        <span :style="'color:' + (i13 >= 0 ? 'red' : 'green')"
+          >{{ i13 }}{{ i13 == 0 ? "" : "%" }}</span
+        >
+      </span>
+      <span slot="i14" slot-scope="i14">
+        <span :style="'color:' + (i14 >= 0 ? 'red' : 'green')"
+          >{{ i14 }}{{ i14 == 0 ? "" : "%" }}</span
+        >
+      </span>
+      <span slot="i15" slot-scope="i15">
+        <span :style="'color:' + (i15 >= 0 ? 'red' : 'green')"
+          >{{ i15 }}{{ i15 == 0 ? "" : "%" }}</span
+        >
+      </span>
+    </a-table>
+  </div>
 </template>
 <script>
 import rankData from "./data.js";
 
 const columns = [
-  {
-    title: "序号",
-    dataIndex: "25",
-    key: "25",
-    scopedSlots: { customRender: "num" },
-  },
   {
     title: "代码",
     dataIndex: "0",
@@ -195,18 +204,31 @@ export default {
   data() {
     return {
       columns,
+      currentList: [],
+      searchVal: "",
     };
   },
   computed: {
     list: function () {
       return rankData.datas.map((item, index) => (item = item.split(",")));
     },
-    get300: function () {
-      return this.list.filter((tiem) => tiem[1].indexOf("300") !== -1);
+  },
+  methods: {
+    handleSubmit() {
+      // const hide = this.$message.loading("搜索中.....", 0);
+
+      this.getFilterList(this.searchVal);
+      // hide();
+    },
+    getFilterList(val, hide) {
+      this.currentList = this.list.filter(
+        (tiem) => tiem[1].indexOf(val) !== -1
+      );
     },
   },
-  mounted() {
-    console.log("------------------,有", this.get300.length);
+  mounted() {},
+  updated() {
+    console.log("------------------,有", this.currentList.length);
   },
 };
 </script>

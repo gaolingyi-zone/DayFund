@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import FundList from "./components/FundList.vue";
+import FundList from "./components/FundList2.vue";
 
 export default {
   name: "App",
@@ -23,5 +23,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  width: 90%;
+  margin: auto;
 }
 </style>
