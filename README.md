@@ -1,19 +1,2 @@
-# day-fund-vue
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# 使用天天基金的数据 搭配andt的表格展示
+由于天天基金展示页广告又多,又不好看,基金名称也显示不全,才做了这个小玩意,自用看得舒服就行了
