@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-form layout="inline">
+    <a-form layout="inline" class="form">
       <a-form-item>
         <a-input placeholder="基金名称,all搜索全部" v-model="searchVal">
           <a-icon
@@ -35,6 +35,7 @@
             <th>今年来</th>
             <th>成立来</th>
             <th>成立时间</th>
+            <th>更新时间</th>
             <th>手续费</th>
           </tr>
         </thead>
@@ -60,7 +61,7 @@
               {{ item[10] }}{{ item[10] == 0 ? "" : "%" }}
             </td>
             <td :style="'color:' + (item[11] >= 0 ? 'red' : 'green')">
-              {{ item[11] }}{{ item[11] == 0 ? "" : "%" }}
+              <strong>{{ item[11] }}{{ item[11] == 0 ? "" : "%" }}</strong>
             </td>
             <td :style="'color:' + (item[12] >= 0 ? 'red' : 'green')">
               {{ item[12] }}{{ item[12] == 0 ? "" : "%" }}
@@ -75,6 +76,7 @@
               {{ item[15] }}{{ item[15] == 0 ? "" : "%" }}
             </td>
             <td>{{ item[16] }}</td>
+            <td>{{ item[3] }}</td>
             <td>{{ item[20] }}</td>
           </tr>
         </tbody>
@@ -114,9 +116,10 @@ export default {
       );
     },
   },
-  mounted() {},
-  updated() {
+  mounted() {
+    console.log(this.list[1]);
   },
+  updated() {},
 };
 </script>
 <style scoped>
@@ -129,5 +132,8 @@ th {
 }
 tbody tr:hover {
   background: #eee;
+}
+.form {
+  margin: 20px 0;
 }
 </style>
