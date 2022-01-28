@@ -36,6 +36,7 @@
             <th>近三年</th>
             <th>今年来</th>
             <th>成立来</th>
+            <th>自定义时间</th>
             <th>成立时间</th>
             <th>更新时间</th>
           </tr>
@@ -106,6 +107,11 @@
                 {{ item[15] }}{{ item[15] == 0 ? "" : "%" }}
               </div>
             </td>
+            <td>
+              <div :style="getColor(item[18])">
+                {{ item[18] }}{{ item[18] == 0 ? "" : "%" }}
+              </div>
+            </td>
             <td>{{ item[16] }}</td>
             <td>{{ item[3] }}</td>
           </tr>
@@ -135,7 +141,14 @@ export default {
       const res = [];
       for (let i in this.rankData.datas) {
         let item = this.rankData.datas[i].split(",");
-        if (Number(item[11]) > 0) {
+        const year_1 = Number(item[11]) > 0; //一年涨幅大于60
+        const year_2 = Number(item[12]) > 0; //二年涨幅大于0
+        const year_3 = Number(item[13]) > 0; //三年涨幅大于0
+        const custom_time = Number(item[18]) > -10; //三年涨幅大于0
+        console.log(item[12]);
+        const zhanzhi = [year_1, year_2, year_3];
+        // const zhanzhi = [true];
+        if (!zhanzhi.some((res) => !res)) {
           res.push(item);
         }
       }
@@ -150,13 +163,15 @@ export default {
         // this.spinning = true;
         this.getFilterList(this.searchVal);
       }
+      console.log("搜索结束");
     },
     getFilterList(val, hide) {
       let average = 0;
       this.currentList = this.list.filter((item) => {
         const res = item[1].indexOf(val) !== -1;
+        console.log(item[10] - 0);
         // if (res) {
-          average += Number(item[14]);
+        average += Number(item[14]);
         // }
         return res;
       });
@@ -177,7 +192,7 @@ export default {
       return `<div ${className}> ${test} </div>`;
     },
     getRatioClolr(num, month) {
-      return this.getRatio(num, month) >= 0.015 && "redBg";
+      return this.getRatio(num, month) >= 0.2 && "redBg";
     },
     filterRatio(num, month) {
       console.log(this.getRatio(num, month) >= 0.4);
