@@ -17,7 +17,7 @@
         <a-spin :spinning="spinning">
             <div class="table">
                 <div class="tr table-title">
-                    <td width=50>序号</td>
+                    <td width=75>序号</td>
                     <td width=90>代码</td>
                     <td width=180>名称</td>
                     <td width=100>日增长率</td>
@@ -35,7 +35,7 @@
                     <td width=100>更新时间</td>
                 </div>
                 <div class="tr table-body" v-for="(item, index) in currentList" :key="item.code">
-                    <td width=50>{{ index + 1 }}</td>
+                    <td width=50>NO{{ index + 1 }}</td>
                     <td width=90>{{ item.code }}</td>
                     <td width=180>
                         <a :href="`http://fund.eastmoney.com/${item.code}.html`">{{ item.name }}</a>
@@ -130,13 +130,16 @@ export default {
     computed: {
         list: function () {
             return defaultFilter(this.allList).filter((r) => {
+                // return this.allList.filter((r) => {
                 const year_1 = r.nearly_year_1 > 0; //一年涨幅大于60
                 const year_2 = r.nearly_year_2 > 0; //二年涨幅大于0
                 const custom_time = r.custom_time > -10; //三年涨幅大于0
+                const create_time = r.create_time.slice(0, 4) === "2019";
                 const name = !r.name.includes('黄金'); //三年涨幅大于0
-                const condition = []
+                const condition = [create_time]
                 return !condition.some((res) => !res)
-            });
+                // }) ;
+            }).sort((a, b) => b.nearly_month_3 - a.nearly_month_3);
         },
     },
     methods: {
@@ -211,16 +214,17 @@ tbody tr:hover {
     top: 50px;
     padding: 20px;
 }
-.table{
+
+.table {
     margin-top: 55px;
 }
+
 .table-title {
     background-color: #1890ff;
+    color: #fff;
     position: fixed;
     top: 100px;
     display: flex;
     justify-content: center;
 }
-
-
 </style>
