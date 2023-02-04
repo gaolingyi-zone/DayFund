@@ -35,7 +35,7 @@
                     <td width=100>更新时间</td>
                 </div>
                 <div class="tr table-body" v-for="(item, index) in currentList" :key="item.code">
-                    <td width=50>NO{{ index + 1 }}</td>
+                    <td width=75>N{{ index + 1 }}</td>
                     <td width=90>{{ item.code }}</td>
                     <td width=180>
                         <a :href="`http://fund.eastmoney.com/${item.code}.html`">{{ item.name }}</a>
@@ -115,7 +115,7 @@
 </template>
 <script>
 import { getFundAllList } from "@/api/fund";
-import { defaultFilter } from "./filterPolicy";
+import { defaultFilter, debentureFund } from "./filterPolicy";
 
 export default {
     data() {
@@ -129,17 +129,20 @@ export default {
     },
     computed: {
         list: function () {
-            return defaultFilter(this.allList).filter((r) => {
+            const list = defaultFilter(this.allList)
+            return debentureFund(list).filter((r) => {
                 // return this.allList.filter((r) => {
-                const year_1 = r.nearly_year_1 > 0; //一年涨幅大于60
+                const year_1 = r.nearly_year_1 > 3; //一年涨幅大于60
                 const year_2 = r.nearly_year_2 > 0; //二年涨幅大于0
+                const year_3 = r.nearly_year_3 > 12 && r.nearly_year_3 < 30; //二年涨幅大于0
                 const custom_time = r.custom_time > -10; //三年涨幅大于0
                 const create_time = r.create_time.slice(0, 4) === "2019";
                 const name = !r.name.includes('黄金'); //三年涨幅大于0
-                const condition = [create_time]
+                const condition = []
                 return !condition.some((res) => !res)
                 // }) ;
-            }).sort((a, b) => b.nearly_month_3 - a.nearly_month_3);
+            })
+                .sort((a, b) => b.nearly_month_6 - a.nearly_month_6);
         },
     },
     methods: {
@@ -221,6 +224,7 @@ tbody tr:hover {
 
 .table-title {
     background-color: #1890ff;
+    border-radius: 4px;
     color: #fff;
     position: fixed;
     top: 100px;
